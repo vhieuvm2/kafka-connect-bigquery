@@ -43,6 +43,7 @@ public class DebeziumLogicalConverters {
 
   static {
     LogicalConverterRegistry.register(Date.SCHEMA_NAME, new DateConverter());
+    LogicalConverterRegistry.register(Timestamp.SCHEMA_NAME, new TimestampConverter());
     LogicalConverterRegistry.register(MicroTime.SCHEMA_NAME, new MicroTimeConverter());
     LogicalConverterRegistry.register(MicroTimestamp.SCHEMA_NAME, new MicroTimestampConverter());
     LogicalConverterRegistry.register(Time.SCHEMA_NAME, new TimeConverter());
@@ -62,7 +63,7 @@ public class DebeziumLogicalConverters {
     public DateConverter() {
       super(Date.SCHEMA_NAME,
             Schema.Type.INT32,
-            LegacySQLTypeName.DATE);
+            LegacySQLTypeName.TIMESTAMP);
     }
 
     @Override
@@ -70,7 +71,7 @@ public class DebeziumLogicalConverters {
       Integer daysSinceEpoch = (Integer) kafkaConnectObject;
       long msSinceEpoch = TimeUnit.DAYS.toMillis(daysSinceEpoch);
       java.util.Date date = new java.util.Date(msSinceEpoch);
-      return getBQDateFormat().format(date);
+      return getBqTimestampFormat().format(date);
     }
   }
 
