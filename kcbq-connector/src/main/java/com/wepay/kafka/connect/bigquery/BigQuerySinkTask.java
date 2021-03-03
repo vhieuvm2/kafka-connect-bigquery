@@ -180,7 +180,7 @@ public class BigQuerySinkTask extends SinkTask {
   private PartitionedTableId getRecordTable(SinkRecord record) {
     String tableName;
     String dataset = config.getString(config.DEFAULT_DATASET_CONFIG);
-    String[] smtReplacement = record.topic().split(":");
+    String[] smtReplacement = record.topic().split("\\.");
 
     if (smtReplacement.length == 2) {
       dataset = smtReplacement[0];
